@@ -1,20 +1,23 @@
-/**
- * Created by mapbar_front on 2019-09-23.
- */
-const proxyPath = 'http://***.***.**.com/';
+const RouterWebpackPlugin = require('./plugins/router.webpack.plugin')
+
 module.exports = {
-    // 选项...
-    publicPath: '/wxpay/',
-    // 设置代理
-    devServer: {
-        proxy: {
-            '/api': {
-                target: proxyPath,
-                changeOrigin: true,
-                pathRequiresRewrite: {
-                    "^/api": "/api"
-                }
-            }
-        }
+  css: {
+    loaderOptions: {
+      scss: {
+        prependData: '@import "~@/assets/styles/_shared.scss";'
+      }
     }
+  },
+  configureWebpack: config => {
+    config.plugins.push(new RouterWebpackPlugin())
+  },
+  devServer: {
+    proxy: {
+      '/api/manager': {
+        target: 'https://www.easy-mock.com/mock/598a6b4aa1d30433d85a1155',
+        ws: true,
+        changeOrigin: true
+      }
+    }
+  }
 }

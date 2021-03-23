@@ -1,17 +1,22 @@
 import Vue from 'vue'
-import ElementUI from 'element-ui'
+import router from '@/router'
+import store from '@/store'
+import * as filters from './filters'
+import _ from './plugins/lodash'
+import axios from './plugins/axios'
+import '@/plugins/element-ui'
 import App from './App.vue'
-import router from './router'
-import store from './store'
-import './utils/globalFilter'
-
-// 全局css
-import './styles/common.css'
-import './styles/reset.css'
-import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+Object.defineProperty(Vue.prototype, '$_', {
+  value: _
+})
+Object.defineProperty(Vue.prototype, '$http', {
+  value: axios
+})
 
 new Vue({
   router,
